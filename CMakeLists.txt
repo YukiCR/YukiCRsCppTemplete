@@ -4,14 +4,13 @@ project(cmktst VERSION 0.1.0 LANGUAGES C CXX)
 include(CTest)
 enable_testing()
 
-
+#####################################################
+# for matplotlibcpp
+#####################################################
 include(GNUInstallDirs)
 set(PACKAGE_NAME matplotlib_cpp)
 set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/${PACKAGE_NAME}/cmake)
 
-#####################################################
-# for matplotlibcpp
-#####################################################
 # Library target
 add_library(matplotlib_cpp INTERFACE)
 target_include_directories(matplotlib_cpp
@@ -41,13 +40,26 @@ install(
   EXPORT install_targets
 )
 
-###  include all cpp files in dir src  ###
-file(GLOB SOURCES "src/*.cpp")
 
+###  find all cpp files in dir src, name it SOURCES  ###
+file(GLOB SOURCES "src/main.cpp")
 
+### the executable MyPrj will be complied with SOURCES
 add_executable(MyPrj ${SOURCES})
+### add "include/" to directories
+target_include_directories(MyPrj PRIVATE "include/")
+
 target_link_libraries(MyPrj PRIVATE matplotlib_cpp)
 set_target_properties(MyPrj PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+
+### find cpps, name it MY_HEADER
+file(GLOB MY_HEADER "src/MyLib.cpp")
+### add a library with files in MY_HEADER
+add_library(MyLib ${MY_HEADER})
+### link it to executable MyPrj
+# if not, exe knows there's some funcs (cause it can access headers in include),
+# but it can't find where the things are
+target_link_libraries(MyPrj PRIVATE MyLib)
 
 
 #####################################################

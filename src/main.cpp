@@ -3,15 +3,15 @@
 #include <Eigen/Dense>
 #include <Eigen/Geometry>
 #include <Eigen/Eigenvalues>
-#include "../include/matplotlibcpp.h"
 #include <cmath>
+#include "matplotlibcpp.h"
+#include "MyLib.h"
 
 namespace plt = matplotlibcpp;
 
-void log(const char* msg); // declare
 
 int main(){
-    log("Hello Cmake!");
+    Log("Hello Cmake!");
     // here is an arbitrary normal vector
     // initialized to (1,2,3) upon instantiation
     Eigen::Vector3d normal_vec(1,2,3); 
