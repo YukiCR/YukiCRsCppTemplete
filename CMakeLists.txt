@@ -4,6 +4,26 @@ project(cmktst VERSION 0.1.0 LANGUAGES C CXX)
 include(CTest)
 enable_testing()
 
+# DEBUG will be set true in Debug mode 
+if(CMAKE_BUILD_TYPE MATCHES Debug)
+    add_compile_definitions(DEBUG=true RELEASE=false)
+else()
+    add_compile_definitions(RELEASE=true DEBUG=false)
+endif()
+
+
+####################################################
+# for ompl
+###################################################
+find_package(ompl REQUIRED)
+
+include_directories(
+	include
+	${catkin_INCLUDe_DIRS}
+	${OMPL_INCLUDE_DIRS}
+)
+
+
 #####################################################
 # for matplotlibcpp
 #####################################################
